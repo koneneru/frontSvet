@@ -1,5 +1,5 @@
-import type { Review, ReviewFilters, ReviewListResponseDTO } from './model/types';
-import { mapReviewListResponse } from './model/mapper';
+import type { Review, ReviewFilters, ReviewListResponseDTO, ReviewResponseDTO, ReviewUpdateDTO } from './model/types';
+import { mapReviewListResponse, mapReviewSingleResponse } from './model/mapper';
 import { httpClient } from '@/shared/api/httpClient';
 
 const baseUrl = 'http://localhost:7777/api/v1/appeals';
@@ -13,11 +13,12 @@ export async function fetchReviews(filters: ReviewFilters): Promise<Review[]> {
   return mapReviewListResponse(response);
 }
 
-// export async function updateAppeal(id: string, updateDTO: AppealUpdateDTO): Promise<Appeal> {
-//   const response = await httpClient<ReviewResponseDTO>(`${baseUrl}/${id}`, {
-//     method: 'PATCH',
-//     body: updateDTO,
-//   });
+export async function updateReview(id: string, updateDTO: ReviewUpdateDTO): Promise<Review> {
+  console.log(updateDTO);
+  const response = await httpClient<ReviewResponseDTO>(`${baseUrl}/${id}`, {
+    method: 'PATCH',
+    body: updateDTO,
+  });
 
-//   return mapAppealSingleResponse(response);
-// }
+  return mapReviewSingleResponse(response);
+}

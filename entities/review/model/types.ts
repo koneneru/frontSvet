@@ -19,6 +19,14 @@ export interface ReviewDTO {
   solution: string
   comment: string
 }
+export interface ReviewUpdateDTO {
+  timestamp: Date
+  machine: string
+  appraisal: number
+  problem?: string
+  solution?: string
+  comment?: string
+}
 
 export interface ReviewFilters {
   year?: number

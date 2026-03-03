@@ -1,25 +1,41 @@
 'use client';
 
 import { Review } from '@/entities/review/model/types';
-import ReviewRow from '@/entities/review/ui/tableRow';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import ReviewTableItem from './reviewTableItem';
 
 interface Props {
   data: Review[]
 }
 
 export default function ReviewTable({ data } : Props) {
-  const [reviews, setReviews] = useState<Review[]>(data);
+  const [reviews, setReviews] = useState(data);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
     setReviews(data);
-  }, [data])
+  }, [data]);
+
+  useEffect(() => {
+    const handleUpdate = (updated: Review) => {
+      setReviews(prev => prev.map(r => r.id !== updated.id ? r : updated));
+    };
+  }, []);
 
   useEffect(() => {
     const handleNewReview = (newReview: Review) => {
       setReviews((prev) => [newReview, ...prev]);
     };
+  }, []);
+
+  const handleTbodyClick = useCallback((event: React.MouseEvent<HTMLTableSectionElement>) => {
+    const target = event.target as HTMLElement;
+    const row = target.closest<HTMLTableRowElement>('tr.editable');
+    const id = row?.dataset.id;
+    if (id) {
+      setEditingId(current => current === id ? null : id);
+    }
   }, []);
 
   return (
@@ -35,9 +51,16 @@ export default function ReviewTable({ data } : Props) {
           <th className="text-start">Комментарий</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody onClick={handleTbodyClick}>
         {reviews.length !== 0 ? (
-          reviews.map(r => <ReviewRow key={r.id} review={r} />)
+          reviews.map(r => (
+            <ReviewTableItem 
+              key={r.id}
+              review={r}
+              isEditing={String(r.id) === editingId}
+              onCancelEditing={setEditingId}
+            />
+          ))
         ) : (
           <tr className="table-info"><td className="text-center" colSpan={100}>Записи за указанный период отсутствуют</td></tr>
         )}
