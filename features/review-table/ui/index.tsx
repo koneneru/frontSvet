@@ -1,33 +1,25 @@
 'use client';
 
-import { Review } from '@/entities/review/model/types';
-import { useCallback, useEffect, useState } from 'react';
+import { ReviewFilters } from '@/entities/review/model/types';
+import { JSX, useCallback, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReviewTableItem from './reviewTableItem';
+import { useReviewStore } from '@/entities/review/store/store';
 
 interface Props {
-  data: Review[]
+  fetchParams: ReviewFilters
 }
 
-export default function ReviewTable({ data } : Props) {
-  const [reviews, setReviews] = useState(data);
+export default function ReviewTable({ fetchParams } : Props) {
+  const reviews = useReviewStore.use.reviews();
+  const fetchReviews = useReviewStore.use.fetchReviews();
+
+  const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
-    setReviews(data);
-  }, [data]);
-
-  useEffect(() => {
-    const handleUpdate = (updated: Review) => {
-      setReviews(prev => prev.map(r => r.id !== updated.id ? r : updated));
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleNewReview = (newReview: Review) => {
-      setReviews((prev) => [newReview, ...prev]);
-    };
-  }, []);
+    fetchReviews(fetchParams).finally(() => setLoading(false));
+  }, [fetchParams, fetchReviews]);
 
   const handleTbodyClick = useCallback((event: React.MouseEvent<HTMLTableSectionElement>) => {
     const target = event.target as HTMLElement;
@@ -37,6 +29,26 @@ export default function ReviewTable({ data } : Props) {
       setEditingId(current => current === id ? null : id);
     }
   }, []);
+
+  let content: JSX.Element | JSX.Element[];
+  if (loading) {
+    content = (
+      <tr><td className="text-center" colSpan={100}>Загрузка...</td></tr>
+    );
+  } else if (reviews.length === 0) {
+    content = (
+      <tr className="table-info"><td className="text-center" colSpan={100}>Записи за указанный период отсутствуют</td></tr>
+    );
+  } else {
+    content = (reviews.map(r => (
+      <ReviewTableItem 
+        key={r.id}
+        review={r}
+        isEditing={String(r.id) === editingId}
+        onCancelEditing={setEditingId}
+      />
+    )));
+  }
 
   return (
     <Table hover size="sm">
@@ -52,18 +64,7 @@ export default function ReviewTable({ data } : Props) {
         </tr>
       </thead>
       <tbody onClick={handleTbodyClick}>
-        {reviews.length !== 0 ? (
-          reviews.map(r => (
-            <ReviewTableItem 
-              key={r.id}
-              review={r}
-              isEditing={String(r.id) === editingId}
-              onCancelEditing={setEditingId}
-            />
-          ))
-        ) : (
-          <tr className="table-info"><td className="text-center" colSpan={100}>Записи за указанный период отсутствуют</td></tr>
-        )}
+        {content}
       </tbody>
     </Table>
   )

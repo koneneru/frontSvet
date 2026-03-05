@@ -33,7 +33,7 @@ export default function UpdateReviewForm({ review, onCancel }: Props) {
     const rawValues = getFormData<ReviewEditFormValues>(e.target);
     const updateDTO = mapFormValuesToUpdateDTO(rawValues);
 
-    update(String(review.id), updateDTO);
+    update(String(review.id), updateDTO, onCancel);
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -131,7 +131,7 @@ export default function UpdateReviewForm({ review, onCancel }: Props) {
         <div></div>
         <div className="d-flex justify-content-end align-items-center gap-3 pt-2">
           <div className="js-link cancel" onClick={onCancel}><small>Отмена</small></div>
-          <Button variant="success" type="submit" size="sm" disabled={loading}>Сохранить</Button>
+          <Button variant="success" type="submit" size="sm" disabled={loading}>{loading ? 'Сохранение...' : 'Сохранить'}</Button>
         </div>
       </div>
     </Form>

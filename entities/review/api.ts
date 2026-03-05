@@ -14,7 +14,6 @@ export async function fetchReviews(filters: ReviewFilters): Promise<Review[]> {
 }
 
 export async function updateReview(id: string, updateDTO: ReviewUpdateDTO): Promise<Review> {
-  console.log(updateDTO);
   const response = await httpClient<ReviewResponseDTO>(`${baseUrl}/${id}`, {
     method: 'PATCH',
     body: updateDTO,
