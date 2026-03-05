@@ -1,4 +1,5 @@
-import type { Review, ReviewDTO, ReviewListResponseDTO, ReviewResponseDTO } from '../model/types';
+import { Review } from '../model/types';
+import { ReviewDTO, ReviewListResponseDTO, ReviewResponseDTO } from './types';
 
 export function mapReviewDTO(dto: ReviewDTO): Review {
   return {

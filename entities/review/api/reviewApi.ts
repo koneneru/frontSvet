@@ -1,6 +1,7 @@
-import type { Review, ReviewFilters, ReviewListResponseDTO, ReviewResponseDTO, ReviewUpdateDTO } from './model/types';
-import { mapReviewListResponse, mapReviewSingleResponse } from './model/mapper';
 import { httpClient } from '@/shared/api/httpClient';
+import { Review, ReviewFilters, ReviewUpdateDTO } from '../model/types';
+import { ReviewListResponseDTO, ReviewResponseDTO } from './types';
+import { mapReviewListResponse, mapReviewSingleResponse } from './mapper';
 
 const baseUrl = 'http://localhost:7777/api/v1/appeals';
 
