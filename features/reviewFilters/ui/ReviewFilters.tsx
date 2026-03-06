@@ -2,9 +2,9 @@
 
 import { SubmitEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-import { useUrlFilters } from '@/shared/lib/urlFilters/useUrlFilters';
+import { useUrlFilters } from '@/shared/lib/urlFilters';
 
-export default function ReviewFilters() {
+export function ReviewFilters() {
   const { setFilter, getFilter } = useUrlFilters();
 
   const handleFilterChange = (name: string, value: string) => {
@@ -19,7 +19,7 @@ export default function ReviewFilters() {
   }
 
   return (
-    <div className="d-flex justify-content-between align-items-center bg-body-tertiary border rounded shadow-sm px-3 py-2 mt-3">
+    <div className="d-flex justify-content-between align-items-center bg-body-tertiary border rounded shadow-sm px-3 py-2 mb-3">
       <Form
         className="d-flex flex-column flex-md-row gap-2"
         id="appealFilterForm"

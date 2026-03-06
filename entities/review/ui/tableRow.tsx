@@ -5,7 +5,7 @@ interface Props extends React.HTMLAttributes<HTMLTableRowElement> {
   review: Review
 }
 
-export default function ReviewRow({ review, ...props }: Props) {
+export function ReviewRow({ review, ...props }: Props) {
   return (
     <tr
     {...props}

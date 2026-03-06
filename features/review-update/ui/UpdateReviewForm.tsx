@@ -1,7 +1,6 @@
 'use client';
 
-import { Review } from '@/entities/review/model/types';
-import { useUpdateReview } from '../model/useUpdateReview';
+import { Review, useUpdateReview } from '@/entities/review';
 import { getFormData } from '@/shared/dom/form';
 import { ReviewEditFormValues } from '../model/types';
 import { mapFormValuesToUpdateDTO } from '../model/mapper';
@@ -12,12 +11,11 @@ import { useState } from 'react';
 
 interface Props {
   review: Review
-  onCancel: () => void
+  onClose: () => void
 }
 
-export default function UpdateReviewForm({ review, onCancel }: Props) {
-  const { update, loading } = useUpdateReview();
-
+export function UpdateReviewForm({ review, onClose }: Props) {
+  const updateReview = useUpdateReview();
   const [formState, setFormState] = useState({
     timestamp: review.timestamp,
     machine: review.machine,
@@ -26,14 +24,21 @@ export default function UpdateReviewForm({ review, onCancel }: Props) {
     solution: review.solution,
     comment: review.comment,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    
-    const rawValues = getFormData<ReviewEditFormValues>(e.target);
-    const updateDTO = mapFormValuesToUpdateDTO(rawValues);
 
-    update(String(review.id), updateDTO, onCancel);
+    setLoading(true);
+    try {
+      const rawValues = getFormData<ReviewEditFormValues>(e.target);
+      const updateDTO = mapFormValuesToUpdateDTO(rawValues);
+
+      await updateReview(String(review.id), updateDTO);
+      onClose();
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -130,7 +135,7 @@ export default function UpdateReviewForm({ review, onCancel }: Props) {
         </div>
         <div></div>
         <div className="d-flex justify-content-end align-items-center gap-3 pt-2">
-          <div className="js-link cancel" onClick={onCancel}><small>Отмена</small></div>
+          <div className="js-link cancel" onClick={onClose}><small>Отмена</small></div>
           <Button variant="success" type="submit" size="sm" disabled={loading}>{loading ? 'Сохранение...' : 'Сохранить'}</Button>
         </div>
       </div>

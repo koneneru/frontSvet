@@ -1,4 +1,4 @@
-import { ReviewUpdateDTO } from '@/entities/review/model/types.js';
+import { ReviewUpdateDTO } from '@/entities/review';
 import type { ReviewEditFormValues } from './types.js';
 
 export function mapFormValuesToUpdateDTO(values: ReviewEditFormValues): ReviewUpdateDTO {

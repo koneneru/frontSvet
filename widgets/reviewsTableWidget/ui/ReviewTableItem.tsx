@@ -1,15 +1,17 @@
-import { Review } from '@/entities/review/model/types';
-import ReviewRow from '@/entities/review/ui/tableRow';
-import UpdateReviewForm from '@/features/review-update/ui';
+import { ReviewRow, useReviewsById } from '@/entities/review';
+import { UpdateReviewForm } from '@/features/review-update';
 import { Dispatch, memo, SetStateAction } from 'react';
 
 interface Props {
-  review: Review
+  reviewId: string
   isEditing: boolean
   onCancelEditing: Dispatch<SetStateAction<string | null>>
 }
 
-export default memo(function ReviewTableItem({ review, isEditing, onCancelEditing }: Props) {
+export default memo(function ReviewTableItem({ reviewId, isEditing, onCancelEditing }: Props) {
+  const review = useReviewsById()[reviewId];
+  if (!review) return null;
+
   return (
     <>
       <ReviewRow
@@ -31,11 +33,11 @@ export default memo(function ReviewTableItem({ review, isEditing, onCancelEditin
                 borderBottom: '1px solid #afc9af',
               }}
             >
-              <UpdateReviewForm review={review} onCancel={() => onCancelEditing(null) }/>
+              <UpdateReviewForm review={review} onClose={() => onCancelEditing(null) }/>
             </div>
           </td>
         </tr>
       )}
     </>
   )
-});
+})

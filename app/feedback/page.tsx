@@ -1,11 +1,6 @@
-import ReviewsPage from '@/pages/reviews/ui'
+import { ReviewsPage } from '@/pages/reviewsPage';
 
-interface PageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>
-}
+export default function Page() {
 
-export default async function ReviewPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-
-  return <ReviewsPage searchParams={params} />;
+  return <ReviewsPage />;
 }
