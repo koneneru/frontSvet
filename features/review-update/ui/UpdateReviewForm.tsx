@@ -39,12 +39,12 @@ export function UpdateReviewForm({ review, onClose }: Props) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormState(prev => ({ ...prev, [name]: value}));
-  }
+    setFormState(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <Form
@@ -101,7 +101,7 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               size="sm"
               rows={2}
               maxLength={256}
-              style={{ resize: "none" }}
+              style={{ resize: 'none' }}
               value={formState.problem}
               onChange={handleChange}
             />
@@ -114,7 +114,7 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               size="sm"
               rows={3}
               maxLength={2048}
-              style={{ resize: "none" }}
+              style={{ resize: 'none' }}
               value={formState.solution}
               onChange={handleChange}
             />
@@ -127,7 +127,7 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               size="sm"
               rows={3}
               maxLength={2048}
-              style={{ resize: "none" }}
+              style={{ resize: 'none' }}
               value={formState.comment}
               onChange={handleChange}
             />

@@ -1,3 +1,3 @@
 export type AppEvents = {
-  'error': { message: string }
-}
+  error: { message: string }
+};

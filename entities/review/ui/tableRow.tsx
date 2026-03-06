@@ -8,9 +8,9 @@ interface Props extends React.HTMLAttributes<HTMLTableRowElement> {
 export function ReviewRow({ review, ...props }: Props) {
   return (
     <tr
-    {...props}
-    className={`editable ${props.className}`}
-    data-id={review.id}
+      {...props}
+      className={`editable ${props.className}`}
+      data-id={review.id}
     >
       <td className="text-end">{review.id}</td>
       <td className="text-center text-nowrap">{toIsoString(review.timestamp).slice(0, 19).replace('T', ' ')}</td>

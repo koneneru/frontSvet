@@ -6,7 +6,7 @@ export function ReviewsPage() {
     <div className="container-lg">
       <div className="mb-3">
         <div className="d-flex justify-content-between">
-            <p className="fs-4 fw-semibold m-0">Обращения пользователей</p>
+          <p className="fs-4 fw-semibold m-0">Обращения пользователей</p>
         </div>
       </div>
       <ReviewFilters />

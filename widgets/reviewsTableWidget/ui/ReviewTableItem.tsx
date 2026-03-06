@@ -26,18 +26,18 @@ export default memo(function ReviewTableItem({ reviewId, isEditing, onCancelEdit
             className="py-1 px-0"
           >
             <div
-              className='px-4 py-3'
+              className="px-4 py-3"
               style={{
                 backgroundColor: '#E2F3E2',
                 borderTop: '1px solid #afc9af',
                 borderBottom: '1px solid #afc9af',
               }}
             >
-              <UpdateReviewForm review={review} onClose={() => onCancelEditing(null) }/>
+              <UpdateReviewForm review={review} onClose={() => onCancelEditing(null)} />
             </div>
           </td>
         </tr>
       )}
     </>
-  )
-})
+  );
+});

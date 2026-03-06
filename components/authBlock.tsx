@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function AuthBlock({ user }: { user?: { login: string, role: string } }) {
   if (!user) {
@@ -25,12 +25,15 @@ export default function AuthBlock({ user }: { user?: { login: string, role: stri
         <div className="d-flex align-item-center gap-2">
           <img src="https://cdn-icons-png.flaticon.com/512/3276/3276580.png" alt="mdo" width="42" height="42" className="rounded-circle" />
           <span className="text-start lh-sm" style={{ fontSize: '0.8rem' }}>
-            <strong>{user.login}</strong><br />{user.role}</span>
+            <strong>{user.login}</strong>
+            <br />
+            {user.role}
+          </span>
         </div>
       </a>
       <ul className="dropdown-menu">
         <li>
-          <form action="/api/logout" method='POST'>
+          <form action="/api/logout" method="POST">
             <button className="dropdown-item">Выйти</button>
           </form>
         </li>

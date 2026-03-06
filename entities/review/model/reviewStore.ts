@@ -41,12 +41,12 @@ const reviewStore = create<ReviewState>((set, get) => ({
       set({
         loading: false,
       });
-    }    
+    }
   },
 
   updateReview: async (id, dto) => {
     const updatedReview = await updateReview(id, dto);
-    
+
     set({
       reviewsById: {
         ...get().reviewsById,

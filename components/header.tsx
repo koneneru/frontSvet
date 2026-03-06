@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import NavMenu from './navMenu';
 import AuthBlock from './authBlock';
 
@@ -18,5 +17,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

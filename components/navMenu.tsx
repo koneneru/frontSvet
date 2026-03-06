@@ -10,7 +10,7 @@ export default function NavMenu() {
   return (
     <Navbar expand="lg">
       <Container>
-        <Navbar.Brand as={Link} href='/'>SVET</Navbar.Brand>
+        <Navbar.Brand as={Link} href="/">SVET</Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -54,4 +54,4 @@ export default function NavMenu() {
       </Container>
     </Navbar>
   );
-}
+};

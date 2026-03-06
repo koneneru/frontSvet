@@ -15,7 +15,7 @@ export function ReviewsTableWidget() {
   useEffect(() => {
     fetchReviews({
       year,
-    })
+    });
   }, [fetchReviews, year]);
 
   return <ReviewsTable />;

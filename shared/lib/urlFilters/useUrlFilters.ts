@@ -12,24 +12,24 @@ export function useUrlFilters() {
     if (value === undefined || value === '' || value === null) {
       params.delete(name);
     } else {
-      params.set(name, String(value))
+      params.set(name, String(value));
     }
 
     router.push(`?${params.toString()}`);
-  }
+  };
 
   const getFilter = (name: string) => {
     return searchParams?.get(name);
-  }
+  };
 
   const getNumber = (name: string) => {
     const v = searchParams?.get(name);
     return v ? Number(v) : undefined;
-  }
+  };
 
   const getString = (name: string) => {
     return searchParams?.get(name) ?? undefined;
-  }
+  };
 
   return {
     searchParams,
@@ -37,5 +37,5 @@ export function useUrlFilters() {
     getFilter,
     getNumber,
     getString,
-  }
+  };
 }

@@ -12,11 +12,11 @@ export function ReviewFilters() {
     if (value.length < 4) return;
 
     setFilter(name, value || undefined);
-  }
+  };
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-  }
+  };
 
   return (
     <div className="d-flex justify-content-between align-items-center bg-body-tertiary border rounded shadow-sm px-3 py-2 mb-3">
@@ -31,7 +31,7 @@ export function ReviewFilters() {
             type="text"
             placeholder="Год"
             defaultValue={getFilter('year') ?? ''}
-            onChange={(e) => handleFilterChange('year', e.target.value)}
+            onChange={e => handleFilterChange('year', e.target.value)}
             size="sm"
             maxLength={4}
             style={{ width: '6.4ch' }}
@@ -40,5 +40,5 @@ export function ReviewFilters() {
         {/* <Button variant="primary" type="submit" size="sm">Применить</Button> */}
       </Form>
     </div>
-  )
+  );
 }

@@ -6,17 +6,17 @@ export type EventBus<TEvents extends EventMap> = {
   emit<TKey extends keyof TEvents>(
     type: TKey,
     ...payload: TEvents[TKey] extends undefined ? [] : [payload: TEvents[TKey]]
-  ): void;
+  ): void
 
   on<TKey extends keyof TEvents>(
     type: TKey,
     handler: EventHandler<TEvents[TKey]>
-  ): () => void;
+  ): () => void
 
   once<TKey extends keyof TEvents>(
     type: TKey,
     handler: EventHandler<TEvents[TKey]>
-  ): () => void;
+  ): () => void
 
-  clear(type?: keyof TEvents): void;
+  clear(type?: keyof TEvents): void
 };

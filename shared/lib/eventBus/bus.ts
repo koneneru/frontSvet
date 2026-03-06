@@ -11,8 +11,8 @@ export function createEventBus<Events>() {
     on<K extends keyof Events>(event: K, cb: (_: Events[K]) => void) {
       (listeners[event] ??= []).push(cb);
       return () => {
-        listeners[event] = listeners[event]?.filter((handler) => handler !== cb);
-      }
+        listeners[event] = listeners[event]?.filter(handler => handler !== cb);
+      };
     },
     emit<K extends keyof Events>(event: K, payload: Events[K]) {
       listeners[event]?.forEach((cb) => {

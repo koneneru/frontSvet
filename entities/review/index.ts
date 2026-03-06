@@ -1,5 +1,4 @@
 // hooks
-export { useReviews } from './hooks/useReviews';
 export { useReviewsById } from './hooks/useReviewsById';
 export { useReviewIds } from './hooks/useReviewIds';
 export { useFetchReviews } from './hooks/useFetchReviews';

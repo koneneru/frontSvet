@@ -9,7 +9,7 @@ export function ReviewsTable() {
   const reviewIds = useReviewIds();
   const loading = useLoading();
   const [editingId, setEditingId] = useState<string | null>(null);
-  
+
   const handleTbodyClick = useCallback((event: React.MouseEvent<HTMLTableSectionElement>) => {
     const target = event.target as HTMLElement;
     const row = target.closest<HTMLTableRowElement>('tr.editable');
@@ -58,5 +58,5 @@ export function ReviewsTable() {
         </tbody>
       </Table>
     </div>
-  )
+  );
 }

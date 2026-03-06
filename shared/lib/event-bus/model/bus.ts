@@ -33,13 +33,13 @@ export const createEventBus = <TEvents extends EventMap>(): EventBus<TEvents> =>
     });
 
     return off;
-  }
+  };
 
   const clear: EventBus<TEvents>['clear'] = (type) => {
     if (type) {
       listeners[type]?.clear();
     } else {
-      (Object.keys(listeners) as Array<keyof TEvents>).forEach((key) => 
+      (Object.keys(listeners) as Array<keyof TEvents>).forEach(key =>
         listeners[key]?.clear()
       );
     }
@@ -51,4 +51,4 @@ export const createEventBus = <TEvents extends EventMap>(): EventBus<TEvents> =>
     once,
     clear,
   };
-}
+};

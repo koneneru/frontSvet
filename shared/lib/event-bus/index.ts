@@ -1,3 +1,1 @@
-import { createEventBus } from './model/bus';
-
-export const eventBus = createEventBus
+export { createEventBus } from './model/bus';
