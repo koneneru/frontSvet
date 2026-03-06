@@ -36,7 +36,7 @@ export default function NavMenu() {
               <NavDropdown.Item as={Link} href="#">Сертификаты УКЭП</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="#">Работники на территории</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/feedback">Обращения пользователей</NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/calls">ATS Info</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href="/ats/calls">ATS Info</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/mts/abonents">MTS info</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="#">Rubular</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/localnet">Локальная сеть</NavDropdown.Item>
