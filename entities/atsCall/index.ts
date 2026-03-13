@@ -1,10 +1,10 @@
 // hooks
-export { useCallIds } from './hooks/useCallIds';
-export { useCallsById } from './hooks/useCallsById';
-export { useFetchCalls } from './hooks/useFetchCalls';
-export { useLoading } from './hooks/useLoading';
+export { useAtsCalls } from './hooks/useCalls';
+export { useFetchAtsCalls } from './hooks/useFetchCalls';
+export { useAtsCallFilters } from './hooks/useFilters';
 
 // model
-export type { Call, CallFilters } from './model/types';
+export type { AtsCall, AtsCallFilters } from './model/types';
 
-export { CallRow } from './ui/tableRow';
+// ui
+export { AtsCallRow } from './ui/TableRow';

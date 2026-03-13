@@ -1,32 +1,33 @@
-'use client';
-
-import { useCallIds, useLoading } from '@/entities/atsCall';
-import { JSX } from 'react';
 import Table from 'react-bootstrap/esm/Table';
 import AtsCallTableItem from './AtsCallsTableItem';
+import { useAtsCalls } from '@/entities/atsCall';
 
-export function AtsCallsTable() {
-  const callIds = useCallIds();
-  const loading = useLoading();
+interface Props {
+  loading: boolean
+}
 
-  let content: JSX.Element | JSX.Element[];
-  if (loading) {
-    content = (
-      <tr><td className="text-center" colSpan={100}>Загрузка...</td></tr>
-    );
-  } else if (callIds.length === 0) {
-    content = (
-      <tr className="table-info">
-        <td className="text-center" colSpan={100}>
-          Записи за указанный период отсутствуют
-        </td>
-      </tr>
-    );
-  } else {
-    content = callIds.map(id => (
+export function AtsCallsTable({ loading }: Props) {
+  const callIds = useAtsCalls().ids;
+
+  const renderContent = () => {
+    if (loading) {
+      return <tr><td className="text-center" colSpan={100}>Загрузка...</td></tr>;
+    }
+
+    if (callIds.length === 0) {
+      return (
+        <tr className="table-info">
+          <td className="text-center" colSpan={100}>
+            Записи за указанный период отсутствуют
+          </td>
+        </tr>
+      );
+    }
+
+    return callIds.map(id => (
       <AtsCallTableItem key={id} callId={id} />
     ));
-  }
+  };
 
   return (
     <div className="bg-body-tertiary border rounded shadow-sm">
@@ -44,7 +45,7 @@ export function AtsCallsTable() {
           </tr>
         </thead>
         <tbody>
-          {content}
+          {renderContent()}
         </tbody>
       </Table>
     </div>

@@ -1,45 +1,25 @@
 import { create } from 'zustand';
-import { Call, CallFilters } from './types';
-import { fetchCalls } from '../api/callApi';
-import { createSelectors } from '@/shared/lib/zustand/createSelectors';
+import { AtsCall } from './types';
+import { createEntityAdapter, createSelectors } from '@/shared/lib/zustand';
+import { immer } from 'zustand/middleware/immer';
+
+const callAdapter = createEntityAdapter<AtsCall>();
 
 interface CallState {
-  callsById: Record<string, Call>
-  callIds: string[]
-  loading: boolean
+  calls: ReturnType<typeof callAdapter.getInitialState>
 
-  fetchCalls: (filters: CallFilters) => Promise<void>
+  setCalls: (calls: AtsCall[]) => void
 }
 
-const callStore = create<CallState>(set => ({
-  callsById: {},
-  callIds: [],
-  loading: false,
+const callStore = create<CallState>()(
+  immer(set => ({
+    calls: callAdapter.getInitialState(),
 
-  fetchCalls: async (filters) => {
-    set({ loading: true });
-
-    try {
-      const fetchedCalls = await fetchCalls(filters);
-
-      const byId: Record<string, Call> = {};
-      const ids: string[] = [];
-
-      for (const call of fetchedCalls) {
-        byId[String(call.id)] = call;
-        ids.push(String(call.id));
-      }
-
-      set({
-        callsById: byId,
-        callIds: ids,
-      });
-    } finally {
-      set({
-        loading: false,
-      });
-    }
-  },
-}));
+    setCalls: calls =>
+      set((state) => {
+        callAdapter.setAll(state.calls, calls);
+      }),
+  }))
+);
 
 export const useCallStore = createSelectors(callStore);

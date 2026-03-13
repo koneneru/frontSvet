@@ -1,14 +1,14 @@
-import { httpClient } from '@/shared/api/httpClient';
-import { Call, CallFilters } from '../model/types';
+import { httpClient } from '@/shared/api';
+import { AtsCall, AtsCallFilters } from '../model/types';
 import { CallListResponseDTO } from './types';
 import { mapCallListResponse } from './mapper';
+import { mapFiltersToQuery } from '../model/filters';
 
-const baseUrl = 'http://localhost:7777/api/v1/calls';
-
-export async function fetchCalls(filters: CallFilters): Promise<Call[]> {
-  const response = await httpClient<CallListResponseDTO>(baseUrl, {
+export async function fetchCalls(filters: AtsCallFilters, signal?: AbortSignal): Promise<AtsCall[]> {
+  const response = await httpClient<CallListResponseDTO>('/atsinfo/calls', {
     method: 'GET',
-    query: filters as unknown as Record<string, string>,
+    query: mapFiltersToQuery(filters),
+    signal: signal,
   });
 
   return mapCallListResponse(response);

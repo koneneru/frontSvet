@@ -1,4 +1,4 @@
-export interface Call {
+export interface AtsCall {
   id: string | bigint
   caller: string
   callerName: string
@@ -11,7 +11,7 @@ export interface Call {
   calleeName: string
 }
 
-export interface CallFilters {
+export interface AtsCallFilters {
   caller?: string
   callee?: string
   vector?: string

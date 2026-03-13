@@ -1,4 +1,4 @@
-import { CallRow, useCallsById } from '@/entities/atsCall';
+import { AtsCallRow, useAtsCalls } from '@/entities/atsCall';
 import { memo } from 'react';
 
 interface Props {
@@ -6,10 +6,10 @@ interface Props {
 }
 
 export default memo(function AtsCallTableItem({ callId }: Props) {
-  const call = useCallsById()[callId];
+  const call = useAtsCalls().byId[callId];
   if (!call) return null;
 
   return (
-    <CallRow call={call} />
+    <AtsCallRow call={call} />
   );
 });

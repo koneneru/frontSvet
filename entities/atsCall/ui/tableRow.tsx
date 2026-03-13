@@ -1,11 +1,11 @@
 import { toIsoString } from '@/shared/lib/date';
-import { Call } from '../model/types';
+import { AtsCall } from '../model/types';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLTableRowElement> {
-  call: Call
+  call: AtsCall
 }
 
-export function CallRow({ call, ...props }: Props) {
+export function AtsCallRow({ call, ...props }: Props) {
   return (
     <tr
       {...props}
@@ -24,24 +24,26 @@ export function CallRow({ call, ...props }: Props) {
       >
         {call.gatewayName ? call.gatewayName : '---'}
       </td>
-      (
-      {call.calleeName}
-      ? (
-      <td
-        className="text-center"
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title={call.callee}
-      >
-        {call.calleeName}
-      </td>
-      ) : (
-      <td className={`text-center${call.callee && ' fst-italic'}`}>
-        {call.callee ? call.callee : '-номер не определён-'}
-      </td>
-      ))
+      {
+        call.calleeName
+          ? (
+            <td
+              className="text-center"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title={call.callee}
+            >
+              {call.calleeName}
+            </td>
+          )
+          : (
+            <td className={`text-center${call.callee && ' fst-italic'}`}>
+              {call.callee ? call.callee : '-номер не определён-'}
+            </td>
+          )
+      }
       <td className="text-center">{call.vector}</td>
-      <td className="text-end">{`${call.duration / 60}:${call.duration % 60}`}</td>
+      <td className="text-end">{`${Math.trunc(call.duration / 60)}:${String(call.duration % 60).padStart(2, '0')}`}</td>
     </tr>
   );
 }
