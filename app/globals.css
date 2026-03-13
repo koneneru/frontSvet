@@ -26,8 +26,15 @@ body {
 }
 
 .js-link {
-    color: #176093;
-    border-bottom: 1px dotted rgba(23, 96, 147, 0.3);
-    cursor: pointer;
-    user-select: none;
+  color: #176093;
+  border-bottom: 1px dotted rgba(23, 96, 147, 0.3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.js-link-danger {
+  color: #FF4136;
+  border-bottom: 1px dotted rgba(23, 96, 147, 0.3);
+  cursor: pointer;
+  user-select: none;
 }
