@@ -1,4 +1,4 @@
-import { ServerResponse } from '@/shared/api/types';
+import { ServerResponse } from '@/shared/api';
 
 export interface ReviewDTO {
   id: string | bigint

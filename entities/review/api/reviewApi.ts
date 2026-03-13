@@ -1,12 +1,10 @@
-import { httpClient } from '@/shared/api/httpClient';
+import { httpClient } from '@/shared/api';
 import { Review, ReviewFilters, ReviewUpdateDTO } from '../model/types';
 import { ReviewListResponseDTO, ReviewResponseDTO } from './types';
 import { mapReviewListResponse, mapReviewSingleResponse } from './mapper';
 
-const baseUrl = 'http://localhost:7777/api/v1/appeals';
-
 export async function fetchReviews(filters: ReviewFilters): Promise<Review[]> {
-  const response = await httpClient<ReviewListResponseDTO>(baseUrl, {
+  const response = await httpClient<ReviewListResponseDTO>('/appeals', {
     method: 'GET',
     query: filters as Record<string, string>,
   });
@@ -15,7 +13,7 @@ export async function fetchReviews(filters: ReviewFilters): Promise<Review[]> {
 }
 
 export async function updateReview(id: string, updateDTO: ReviewUpdateDTO): Promise<Review> {
-  const response = await httpClient<ReviewResponseDTO>(`${baseUrl}/${id}`, {
+  const response = await httpClient<ReviewResponseDTO>(`/appeals/${id}`, {
     method: 'PATCH',
     body: updateDTO,
   });
