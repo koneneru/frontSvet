@@ -1,31 +1,40 @@
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+import { buildQuery } from './buildQuery';
+import type { HttpMethod, QueryValue } from './types';
 
 interface RequestOptions<TBody = unknown> extends Omit<RequestInit, 'method' | 'body'> {
   method?: HttpMethod
   body?: TBody
-  query?: Record<string, string>
+  query?: Record<string, QueryValue>
+  sugnal?: AbortSignal
 }
+
+const BASE_URL = 'http://localhost:7777/api/v1';
 
 export async function httpClient<TResponse, TBody = unknown>(
   url: string,
   options: RequestOptions<TBody> = {}
 ): Promise<TResponse> {
-  let fulUrl = url;
+  const { query, method = 'GET', body, headers, signal, ...rest } = options;
 
-  if (options.query && Object.keys(options.query).length > 0) {
-    const params = new URLSearchParams(options.query).toString();
-    fulUrl += `?${params}`;
+  let fullUrl = `${BASE_URL}${url}`;
+
+  if (query) {
+    const queryString = buildQuery(query);
+
+    if (queryString) {
+      fullUrl += `?${queryString}`;
+    }
   }
 
-  const res = await fetch(fulUrl, {
-    method: options.method ?? 'GET',
+  const res = await fetch(fullUrl, {
+    method,
+    signal,
     headers: {
       'Content-Type': 'application/json',
-      ...(options.headers || {}),
+      ...(headers || {}),
     },
-    body: options.method && options.method !== 'GET' && options.body
-      ? JSON.stringify(options.body)
-      : null,
+    body: method !== 'GET' && body ? JSON.stringify(options.body) : undefined,
+    ...rest,
   });
 
   if (!res.ok) {
