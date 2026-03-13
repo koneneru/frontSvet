@@ -1,1 +1,1 @@
-export { useUrlFilters } from './useUrlFilters';
+export { useUrlFilters } from './internal/useUrlFilters';
