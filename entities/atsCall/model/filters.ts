@@ -1,13 +1,13 @@
-import { CallFilters } from './types';
+import { AtsCallFilters } from './types';
 
-export function mapFiltersToQuery(filters: CallFilters) {
+export function mapFiltersToQuery(filters: AtsCallFilters) {
   return {
     caller: filters.caller,
     callee: filters.callee,
-    vector: filters.vector,
+    direction: filters.direction,
     gateway: filters.gateway,
-    calldateFrom: filters.calldateFrom?.toISOString(),
-    calldateTo: filters.calldateTo?.toISOString(),
+    dateFrom: filters.dateFrom,
+    dateTo: filters.dateTo,
     intercity: filters.intercity,
   };
 }

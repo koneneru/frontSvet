@@ -19,7 +19,7 @@ export function AtsCallFilters() {
   return (
     <div className="d-flex justify-content-between align-items-center bg-body-tertiary border rounded shadow-sm px-3 py-2 mb-3">
       <Form
-        className="d-flex flex-column flex-md-row gap-2"
+        className="d-flex flex-column flex-md-row align-items-center gap-2"
         onSubmit={handleSubmit}
       >
         <Form.Control
@@ -40,20 +40,41 @@ export function AtsCallFilters() {
           maxLength={11}
           style={{ width: '15ch' }}
         />
-        <GatewaySelect defaultValue={filters.gateway ?? ''} onChange={handleFilterChange} />
-        {/* <Form.Control
+        <Form.Control
           as="select"
           size="sm"
-          defaultValue={filters.gateway ?? ''}
-          onChange={e => handleFilterChange('gateway', e.target.value)}
+          defaultValue={filters.direction ?? ''}
+          onChange={e => handleFilterChange('direction', e.target.value)}
+          style={{ width: '110px' }}
         >
-          {gateways.ids.map(id => (
-            <option key={id} value={id}>
-              {`${gateways.byId[id].phone} — (${gateways.byId[id].trunk}) ${gateways.byId[id].name}`}
-            </option>
-          ))}
-        </Form.Control> */}
-        {/* <Button variant="primary" type="submit" size="sm">Применить</Button> */}
+          <option value="">Направление</option>
+          <option value="O">Исходящие</option>
+          <option value="I">Входящие</option>
+          <option value="A">Пропущенные</option>
+        </Form.Control>
+        <GatewaySelect defaultValue={filters.gateway ?? ''} onChange={handleFilterChange} />
+        <Form.Check
+          inline
+          type="checkbox"
+          name="intercity"
+          label="Межгород"
+          defaultChecked={filters.intercity}
+          onChange={e => handleFilterChange('intercity', e.target.checked ? 'true' : 'false')}
+        />
+        <Form.Control
+          type="date"
+          size="sm"
+          name="dateFrom"
+          defaultValue={filters.dateFrom ?? ''}
+          onChange={e => handleFilterChange('dateFrom', e.target.value)}
+        />
+        <Form.Control
+          type="date"
+          size="sm"
+          name="dateTo"
+          defaultValue={filters.dateTo ?? ''}
+          onChange={e => handleFilterChange('dateTo', e.target.value)}
+        />
       </Form>
     </div>
   );

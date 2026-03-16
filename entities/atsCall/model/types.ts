@@ -14,9 +14,9 @@ export interface AtsCall {
 export interface AtsCallFilters {
   caller?: string
   callee?: string
-  vector?: string
+  direction?: string
   gateway?: string
-  calldateFrom?: Date
-  calldateTo?: Date
+  dateFrom?: string
+  dateTo?: string
   intercity?: boolean
 }

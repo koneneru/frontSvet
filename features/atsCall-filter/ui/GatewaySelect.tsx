@@ -19,12 +19,14 @@ export function GatewaySelect({ defaultValue, onChange }: Props) {
     <Form.Control
       as="select"
       size="sm"
-      defaultValue={defaultValue ?? ''}
+      value={defaultValue ?? ''}
       onChange={e => onChange('gateway', e.target.value)}
+      style={{ width: '300px' }}
     >
+      <option value="">Шлюз</option>
       {gateways.ids.map(id => (
         (gateways.byId[id].trunk && (
-          <option key={id} value={id}>
+          <option key={id} value={gateways.byId[id].trunk}>
             {`${gateways.byId[id].phone} — (${gateways.byId[id].trunk}) ${gateways.byId[id].name}`}
           </option>
         ))

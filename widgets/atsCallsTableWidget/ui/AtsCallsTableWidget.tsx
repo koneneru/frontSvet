@@ -7,15 +7,28 @@ import { AtsCallFilters } from '@/features/atsCall-filter';
 
 export function AtsCallsTableWidget() {
   const { fetchAtsCalls, loading } = useFetchAtsCalls();
-  const { caller, callee, gateway } = useAtsCallFilters();
+  const { caller, callee, gateway, direction, intercity, dateFrom, dateTo } = useAtsCallFilters();
 
   useEffect(() => {
     fetchAtsCalls({
       caller,
       callee,
       gateway,
+      direction,
+      intercity,
+      dateFrom,
+      dateTo,
     });
-  }, [fetchAtsCalls, caller, callee, gateway]);
+  }, [
+    fetchAtsCalls,
+    caller,
+    callee,
+    gateway,
+    direction,
+    intercity,
+    dateFrom,
+    dateTo,
+  ]);
 
   return (
     <>
