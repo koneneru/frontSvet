@@ -2,6 +2,7 @@
 export { useReviewsById } from './hooks/useReviewsById';
 export { useReviewIds } from './hooks/useReviewIds';
 export { useFetchReviews } from './hooks/useFetchReviews';
+export { useReviewFilters } from './hooks/useFilters';
 export { useLoading } from './hooks/useLoading';
 export { useUpdateReview } from './hooks/useUpdateReview';
 

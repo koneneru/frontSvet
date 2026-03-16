@@ -1,15 +1,16 @@
 'use client';
 
+import { useReviewFilters } from '@/entities/review';
+import { useUrlFilters } from '@/shared/lib/urlFilters';
 import { SubmitEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-import { useUrlFilters } from '@/shared/lib/urlFilters';
 
 export function ReviewFilters() {
-  const { setFilter, getFilter } = useUrlFilters();
+  const filters = useReviewFilters();
+  const { setFilter } = useUrlFilters();
 
-  const handleFilterChange = (name: string, value: string) => {
-    value = value === '' ? String((new Date()).getFullYear()) : value;
-    if (value.length < 4) return;
+  const handleYearChange = (name: string, value: string) => {
+    if (value.length && value.length < 4) return;
 
     setFilter(name, value || undefined);
   };
@@ -30,8 +31,8 @@ export function ReviewFilters() {
           <Form.Control
             type="text"
             placeholder="Год"
-            defaultValue={getFilter('year') ?? ''}
-            onChange={e => handleFilterChange('year', e.target.value)}
+            defaultValue={filters.year ?? ''}
+            onChange={e => handleYearChange('year', e.target.value)}
             size="sm"
             maxLength={4}
             style={{ width: '6.4ch' }}
