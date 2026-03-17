@@ -1,22 +1,10 @@
 'use client';
 
-import { useFilteredAtsAbonents } from '@/features/atsAbonent-filter/model/useFilteredAbonent';
-// import { useAtsAbonentFilter, useFetchAtsAbonents } from '@/entities/atsAbonent';
-// import { useEffect } from 'react';
 import { AtsAbonentsTable } from './Table';
-import { AtsAbonentFilterForm } from '@/features/atsAbonent-filter';
+import { AtsAbonentFilterForm, useFilteredAtsAbonents } from '@/features/atsAbonent-filter';
 
 export function AtsAbonentsTableWidget() {
   const { abonentIds, loading } = useFilteredAtsAbonents();
-  // const { fetchAtsAbonents, loading } = useFetchAtsAbonents();
-  // const { emplId, name } = useAtsAbonentFilter();
-
-  // useEffect(() => {
-  //   fetchAtsAbonents({
-  //     emplId,
-  //     name,
-  //   });
-  // }, [fetchAtsAbonents, emplId, name]);
 
   return (
     <>
