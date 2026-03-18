@@ -1,5 +1,6 @@
 'use client';
 
+import { routes } from '@/shared/config';
 import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -10,7 +11,7 @@ export default function NavMenu() {
   return (
     <Navbar expand="lg">
       <Container>
-        <Navbar.Brand as={Link} href="/">SVET</Navbar.Brand>
+        <Navbar.Brand as={Link} href={routes.home()}>SVET</Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -35,8 +36,8 @@ export default function NavMenu() {
               <NavDropdown.Item as={Link} href="/certificates">Сертификаты АО СВЕТ</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="#">Сертификаты УКЭП</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="#">Работники на территории</NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/feedback">Обращения пользователей</NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/ats/calls">ATS Info</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={routes.feedback()}>Обращения пользователей</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={routes.ats.calls()}>ATS Info</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/mts/abonents">MTS info</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="#">Rubular</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/localnet">Локальная сеть</NavDropdown.Item>
