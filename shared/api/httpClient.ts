@@ -6,7 +6,8 @@ interface RequestOptions<TBody = unknown> extends Omit<RequestInit, 'method' | '
   method?: HttpMethod
   body?: TBody
   query?: Record<string, QueryValue>
-  sugnal?: AbortSignal
+  next?: NextFetchRequestConfig
+  cache?: RequestCache
 }
 
 const BASE_URL = 'http://localhost:7777/api/v1';
@@ -15,7 +16,7 @@ export async function httpClient<TResponse, TBody = unknown>(
   url: string,
   options: RequestOptions<TBody> = {}
 ): Promise<TResponse> {
-  const { query, method = 'GET', body, headers, signal, ...rest } = options;
+  const { query, method = 'GET', body, headers, signal, next, cache, ...rest } = options;
 
   let fullUrl = `${BASE_URL}${url}`;
 
@@ -35,6 +36,8 @@ export async function httpClient<TResponse, TBody = unknown>(
       ...(headers || {}),
     },
     body: method !== 'GET' && body ? JSON.stringify(options.body) : undefined,
+    next,
+    cache,
     ...rest,
   });
 
