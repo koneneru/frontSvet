@@ -4,9 +4,9 @@ import { Abonent } from '@/entities/mtsAbonent';
 import { Suspense, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { MtsAbonentsTable } from './Table';
-import { TableSceleton } from './TableSceleton';
 import { AbonentCreateModal } from '@/features/mtsAbonent-create';
 import { MtsAbonentFilterForm } from '@/features/mtsAbonent-filter';
+import { SkeletonMain } from '@/shared/ui/skeleton';
 
 interface Props {
   abonents: Abonent[]
@@ -31,7 +31,7 @@ export function Content({ abonents }: Props) {
       <MtsAbonentFilterForm />
 
       <div className="bg-body-tertiary border rounded shadow-sm">
-        <Suspense fallback={TableSceleton()}>
+        <Suspense fallback={SkeletonMain()}>
           <MtsAbonentsTable initialAbonents={abonents} />
         </Suspense>
       </div>
