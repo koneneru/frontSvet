@@ -1,4 +1,5 @@
 import { buildQuery } from './buildQuery';
+import { ApiError } from './error';
 import type { HttpMethod, QueryValue } from './types';
 
 interface RequestOptions<TBody = unknown> extends Omit<RequestInit, 'method' | 'body'> {
@@ -38,8 +39,8 @@ export async function httpClient<TResponse, TBody = unknown>(
   });
 
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`HTTP ${res.status}: ${errorText}`);
+    const errorData = await res.json().catch(() => ({}));
+    throw new ApiError(res.status, errorData, errorData.message);
   }
 
   return res.json();
