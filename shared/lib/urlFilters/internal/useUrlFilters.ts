@@ -1,79 +1,64 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
-type FilterValue = string | number | Date | null | undefined;
+type FilterValue = string | number | boolean | null | undefined;
 
-export function useUrlFilters() {
+export function useUrlFilters<T extends Record<string, FilterValue>>(delay = 300) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const updateParams = (params: URLSearchParams) => {
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
+  const getFilter = useCallback(<K extends keyof T>(name: K): T[K] | undefined => {
+    const value = searchParams?.get(name as string);
+    if (value === null) return undefined;
+    return value as T[K];
+  }, [searchParams]);
 
-  const normalizeValue = (value: FilterValue) => {
-    if (value instanceof Date) return value.toISOString();
-    if (typeof value === 'boolean') return value ? 'true' : 'false';
-    return String(value);
-  };
-
-  const setFilter = (name: string, value?: FilterValue) => {
-    const params = new URLSearchParams(searchParams?.toString());
-
-    if (value === undefined || value === null || value === '') {
-      params.delete(name);
-    } else {
-      params.set(name, normalizeValue(value));
-    }
-
-    updateParams(params);
-  };
-
-  const setFilters = (filters: Record<string, FilterValue>) => {
-    const params = new URLSearchParams(searchParams?.toString());
-
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value === undefined || value === null || value === '') {
-        params.delete(key);
-      } else {
-        params.set(key, normalizeValue(value));
-      }
+  const allFilters = useMemo(() => {
+    const filters: Partial<T> = {};
+    searchParams?.forEach((v, k) => {
+      filters[k as keyof T] = v as T[keyof T];
     });
 
-    updateParams(params);
-  };
+    return filters;
+  }, [searchParams]);
 
-  const getString = (name: string) => {
-    return searchParams?.get(name) ?? undefined;
-  };
+  const buildQueryString = useCallback((name: keyof T, value: FilterValue, params: URLSearchParams) => {
+    const stringValue = value?.toString().trim();
 
-  const getNumber = (name: string) => {
-    const v = searchParams?.get(name);
-    return v ? Number(v) : undefined;
-  };
+    if (stringValue && stringValue !== '') {
+      params.set(name as string, stringValue);
+    } else {
+      params.delete(name as string);
+    }
 
-  const getBoolean = (name: string) => {
-    return searchParams?.get(name) === 'true';
-  };
+    return params;
+  }, []);
 
-  const getDate = (name: string) => {
-    const v = searchParams?.get(name);
-    return v ? new Date(v) : undefined;
-  };
+  const setFilter = useCallback((name: keyof T, value: FilterValue) => {
+    const params = new URLSearchParams(searchParams?.toString());
+    buildQueryString(name, value, params);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [router, pathname, searchParams, buildQueryString]);
 
-  const getArray = (name: string) => {
-    return searchParams?.getAll(name) ?? [];
-  };
+  const setFilters = useCallback((filters: Partial<T>) => {
+    const params = new URLSearchParams(searchParams?.toString());
+    Object.entries(filters).forEach(([name, value]) => {
+      buildQueryString(name, value, params);
+    });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [router, pathname, searchParams, buildQueryString]);
+
+  const setFilterDebounced = useDebouncedCallback(setFilter, delay);
 
   return {
-    searchParams,
+    getFilter,
+    allFilters,
     setFilter,
+    setFilterDebounced,
     setFilters,
-    getString,
-    getNumber,
-    getBoolean,
-    getDate,
-    getArray,
   };
 }
