@@ -3,20 +3,26 @@ import { Review, ReviewFilters, ReviewUpdateDTO } from '../model/types';
 import { ReviewListResponseDTO, ReviewResponseDTO } from './types';
 import { mapReviewListResponse, mapReviewSingleResponse } from './mapper';
 
-export async function fetchReviews(filters: ReviewFilters): Promise<Review[]> {
-  const response = await httpClient<ReviewListResponseDTO>('/appeals', {
-    method: 'GET',
-    query: filters as Record<string, string>,
-  });
+const ENDPOINT = '/appeals';
 
-  return mapReviewListResponse(response);
-}
+export const feedbackApi = {
+  fetch: async (filters: ReviewFilters): Promise<Review[]> => {
+    const response = await httpClient<ReviewListResponseDTO>(ENDPOINT, {
+      method: 'GET',
+      query: filters,
+      next: { tags: ['reviews'] },
+    });
 
-export async function updateReview(id: string, updateDTO: ReviewUpdateDTO): Promise<Review> {
-  const response = await httpClient<ReviewResponseDTO>(`/appeals/${id}`, {
-    method: 'PATCH',
-    body: updateDTO,
-  });
+    return mapReviewListResponse(response);
+  },
 
-  return mapReviewSingleResponse(response);
-}
+  update: async (id: string, updateDTO: ReviewUpdateDTO): Promise<Review> => {
+    const response = await httpClient<ReviewResponseDTO>(`${ENDPOINT}/${id}`, {
+      method: 'PATCH',
+      body: updateDTO,
+      cache: 'no-store',
+    });
+
+    return mapReviewSingleResponse(response);
+  },
+};

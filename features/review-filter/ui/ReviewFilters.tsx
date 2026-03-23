@@ -1,18 +1,17 @@
 'use client';
 
-import { useReviewFilters } from '@/entities/review';
+import { ReviewFilters } from '@/entities/review';
 import { useUrlFilters } from '@/shared/lib/urlFilters';
 import { SubmitEvent } from 'react';
 import Form from 'react-bootstrap/Form';
 
-export function ReviewFilters() {
-  const filters = useReviewFilters();
-  const { setFilter } = useUrlFilters();
+export function ReviewFilterForm() {
+  const { getFilter, setFilterDebounced } = useUrlFilters<ReviewFilters>();
 
   const handleYearChange = (name: string, value: string) => {
     if (value.length && value.length < 4) return;
 
-    setFilter(name, value || undefined);
+    setFilterDebounced(name, value);
   };
 
   const handleSubmit = (e: SubmitEvent) => {
@@ -30,15 +29,14 @@ export function ReviewFilters() {
           <Form.Label className="form-label text-nowrap mb-md-0 me-0 me-md-1">Отобразить результаты за</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Год"
-            defaultValue={filters.year ?? ''}
-            onChange={e => handleYearChange('year', e.target.value)}
             size="sm"
+            placeholder="Год"
             maxLength={4}
             style={{ width: '6.4ch' }}
+            defaultValue={getFilter('year') ?? ''}
+            onChange={e => handleYearChange('year', e.target.value)}
           />
         </div>
-        {/* <Button variant="primary" type="submit" size="sm">Применить</Button> */}
       </Form>
     </div>
   );

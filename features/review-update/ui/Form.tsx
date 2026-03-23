@@ -1,54 +1,41 @@
 'use client';
 
-import { Review, useUpdateReview } from '@/entities/review';
-import { getFormData } from '@/shared/dom/form';
-import { ReviewEditFormValues } from '../model/types';
-import { mapFormValuesToUpdateDTO } from '../model/mapper';
+import { Review } from '@/entities/review';
 import Form from 'react-bootstrap/esm/Form';
-import Button from 'react-bootstrap/esm/Button';
 import { toIsoString } from '@/shared/lib/date';
-import { useState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { updateReviewAction } from '../model/actions';
 
 interface Props {
   review: Review
-  onClose: () => void
+  id: string
+  onSuccess?: () => void
+  onPendingChange?: (isPending: boolean) => void
 }
 
-export function UpdateReviewForm({ review, onClose }: Props) {
-  const updateReview = useUpdateReview();
-  const [formState, setFormState] = useState({
-    timestamp: review.timestamp,
-    machine: review.machine,
-    rating: review.rating,
-    problem: review.problem,
-    solution: review.solution,
-    comment: review.comment,
-  });
-  const [loading, setLoading] = useState(false);
+export function ReviewEditForm({
+  review,
+  id,
+  onSuccess,
+  onPendingChange,
+  ...props
+}: Props) {
+  const updateWithId = updateReviewAction.bind(null, String(review.id));
+  const [state, formAction, isPending] = useActionState(updateWithId, null);
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    onPendingChange?.(isPending);
+  }, [isPending, onPendingChange]);
 
-    setLoading(true);
-    try {
-      const rawValues = getFormData<ReviewEditFormValues>(e.target);
-      const updateDTO = mapFormValuesToUpdateDTO(rawValues);
-
-      await updateReview(String(review.id), updateDTO);
-      onClose();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormState(prev => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    if (state?.success) onSuccess?.();
+  }, [state, onSuccess]);
 
   return (
     <Form
-      onSubmit={handleSubmit}
+      {...props}
+      id={id}
+      action={formAction}
     >
       <div className="row gx-5">
         <div className="col-3">
@@ -59,8 +46,8 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               name="timestamp"
               size="sm"
               step="0.001"
-              value={toIsoString(formState.timestamp)}
-              onChange={handleChange}
+              defaultValue={state?.fields?.timestamp as string || toIsoString(review.timestamp)}
+              disabled={isPending}
             />
           </Form.Group>
           <Form.Group className="d-inline-block mb-3 me-4" controlId="user">
@@ -70,8 +57,8 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               name="machine"
               size="sm"
               maxLength={80}
-              value={formState.machine}
-              onChange={handleChange}
+              defaultValue={state?.fields?.machine as string || review.machine}
+              disabled={isPending}
             />
           </Form.Group>
           <Form.Group className="d-inline-block mb-3 me-4" controlId="rating">
@@ -80,8 +67,8 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               as="select"
               name="rating"
               size="sm"
-              value={formState.rating}
-              onChange={handleChange}
+              defaultValue={state?.fields?.rating as string || review.rating}
+              disabled={isPending}
             >
               <option value="5">5</option>
               <option value="4">4</option>
@@ -93,7 +80,7 @@ export function UpdateReviewForm({ review, onClose }: Props) {
           </Form.Group>
         </div>
         <div className="col-9">
-          <Form.Group controlId="problem" className="mb-3">
+          <Form.Group className="mb-3" controlId="problem">
             <Form.Label>Проблема</Form.Label>
             <Form.Control
               as="textarea"
@@ -102,11 +89,11 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               rows={2}
               maxLength={256}
               style={{ resize: 'none' }}
-              value={formState.problem}
-              onChange={handleChange}
+              defaultValue={state?.fields?.problem as string || review.problem}
+              disabled={isPending}
             />
           </Form.Group>
-          <Form.Group controlId="solution" className="mb-3">
+          <Form.Group className="mb-3" controlId="solution">
             <Form.Label>Решение</Form.Label>
             <Form.Control
               as="textarea"
@@ -115,11 +102,11 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               rows={3}
               maxLength={2048}
               style={{ resize: 'none' }}
-              value={formState.solution}
-              onChange={handleChange}
+              defaultValue={state?.fields?.solution as string || review.solution}
+              disabled={isPending}
             />
           </Form.Group>
-          <Form.Group controlId="comment" className="mb-3">
+          <Form.Group className="mb-3" controlId="comment">
             <Form.Label>Комментарий</Form.Label>
             <Form.Control
               as="textarea"
@@ -128,17 +115,16 @@ export function UpdateReviewForm({ review, onClose }: Props) {
               rows={3}
               maxLength={2048}
               style={{ resize: 'none' }}
-              value={formState.comment}
-              onChange={handleChange}
+              defaultValue={state?.fields?.comment as string || review.comment}
+              disabled={isPending}
             />
           </Form.Group>
         </div>
-        <div></div>
-        <div className="d-flex justify-content-end align-items-center gap-3 pt-2">
-          <div className="js-link cancel" onClick={onClose}><small>Отмена</small></div>
-          <Button variant="success" type="submit" size="sm" disabled={loading}>{loading ? 'Сохранение...' : 'Сохранить'}</Button>
-        </div>
       </div>
+
+      {state?.error && (
+        <div className="alert alert-danger p2 small">{state.error}</div>
+      )}
     </Form>
   );
 }

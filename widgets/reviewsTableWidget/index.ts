@@ -1,1 +1,1 @@
-export { ReviewsTableWidget } from './ui/ReviewsTableWidget';
+export { ReviewsTableWidget } from './ui/TableWidget';

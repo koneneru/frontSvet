@@ -1,13 +1,12 @@
 import { ReviewUpdateDTO } from '@/entities/review';
-import type { ReviewEditFormValues } from './types.js';
 
-export function mapFormValuesToUpdateDTO(values: ReviewEditFormValues): ReviewUpdateDTO {
+export function mapFormDataToUpdateDto(formData: FormData): ReviewUpdateDTO {
   return {
-    timestamp: new Date(values.timestamp),
-    machine: values.machine.trim(),
-    appraisal: Number(values.rating),
-    problem: values.problem.trim(),
-    solution: values.solution.trim(),
-    comment: values.comment.trim(),
+    timestamp: new Date(formData.get('timestamp')?.toString() || ''),
+    machine: formData.get('machine')?.toString().trim() || '',
+    appraisal: Number(formData.get('rating')),
+    problem: formData.get('problem')?.toString().trim(),
+    solution: formData.get('solution')?.toString().trim(),
+    comment: formData.get('comment')?.toString().trim(),
   };
 }

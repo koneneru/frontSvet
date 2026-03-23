@@ -17,6 +17,6 @@ export interface ReviewUpdateDTO {
   comment?: string
 }
 
-export interface ReviewFilters {
-  year?: number
+export interface ReviewFilters extends Record<string, string | undefined> {
+  year?: string
 }
