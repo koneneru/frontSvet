@@ -1,4 +1,4 @@
-export interface AtsAbonent {
+export interface Abonent {
   id: string | bigint
   emplId: string
   name: string
@@ -11,7 +11,7 @@ export interface AtsAbonent {
   domesticPhone: string[]
 }
 
-export interface AtsAbonentFilter {
+export interface AbonentFilter extends Record<string, string | undefined> {
   emplId?: string
   name?: string
 }

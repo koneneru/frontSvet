@@ -1,9 +1,9 @@
 import { Fragment, HtmlHTMLAttributes } from 'react';
-import { AtsAbonent } from '../model/types';
+import { Abonent } from '../model/types';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface Props extends HtmlHTMLAttributes<HTMLTableRowElement> {
-  abonent: AtsAbonent
+  abonent: Abonent
 }
 
 export function AtsAbonentTableRow({ abonent, ...props }: Props) {

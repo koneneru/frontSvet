@@ -1,1 +1,1 @@
-export { AtsAbonentsTableWidget } from './ui/AtsAbonentsTableWidget';
+export { AtsAbonentsTableWidget } from './ui/TableWidget';

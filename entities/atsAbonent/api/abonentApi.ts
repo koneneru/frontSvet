@@ -1,16 +1,19 @@
 import { httpClient } from '@/shared/api';
-import { AtsAbonent, AtsAbonentFilter } from '../model/types';
+import { Abonent, AbonentFilter } from '../model/types';
 import { AbonentListResponseDTO } from './types';
-import { mapAbonentListResponse, mapFilterToQuery } from './mapper';
+import { mapListResponse } from './mapper';
+
+const ENDPOINT = '/ats/abonents';
 
 export const abonentApi = {
-  fetch: async (filter: AtsAbonentFilter, signal?: AbortSignal): Promise<AtsAbonent[]> => {
-    const response = await httpClient<AbonentListResponseDTO>('/ats/abonents', {
+  fetch: async (filter: AbonentFilter): Promise<Abonent[]> => {
+    console.log(filter);
+    const response = await httpClient<AbonentListResponseDTO>(ENDPOINT, {
       method: 'GET',
-      query: mapFilterToQuery(filter),
-      signal: signal,
+      query: filter,
+      next: { tags: ['ats/abonents'] },
     });
 
-    return mapAbonentListResponse(response);
+    return mapListResponse(response);
   },
 };

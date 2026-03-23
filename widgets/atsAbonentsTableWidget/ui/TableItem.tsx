@@ -1,13 +1,10 @@
-import { AtsAbonentTableRow, useAtsAbonents } from '@/entities/atsAbonent';
+import { Abonent, AtsAbonentTableRow } from '@/entities/atsAbonent';
 import { memo } from 'react';
 
 interface Props {
-  abonentId: string
+  abonent: Abonent
 }
 
-export default memo(function TableItem({ abonentId }: Props) {
-  const abonent = useAtsAbonents().byId[abonentId];
-  if (!abonent) return null;
-
+export default memo(function TableItem({ abonent }: Props) {
   return <AtsAbonentTableRow abonent={abonent} />;
 });

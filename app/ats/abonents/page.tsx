@@ -1,10 +1,14 @@
-import { AtsAbonentsPage } from '@/pages/atsAbonentsPage';
+import { AtsAbonentsTableWidget } from '@/widgets/atsAbonentsTableWidget';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Фбоненты АТС',
+  title: 'Абоненты АТС',
 };
 
-export default function Page() {
-  return <AtsAbonentsPage />;
+interface Props {
+  searchParams: Promise<Record<string, string | undefined>>
+}
+
+export default function Page({ searchParams }: Props) {
+  return <AtsAbonentsTableWidget searchParams={searchParams} />;
 }

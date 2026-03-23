@@ -1,10 +1,8 @@
-// hooks
-export { useAtsAbonents } from './hooks/useAbonents';
-export { useFetchAtsAbonents } from './hooks/useFetchAbonents';
-export { useAtsAbonentFilter } from './hooks/useFilter';
+// api
+export { abonentApi } from './api/abonentApi';
 
 // model
-export type { AtsAbonent, AtsAbonentFilter } from './model/types';
+export type { Abonent, AbonentFilter } from './model/types';
 
 // ui
 export { AtsAbonentTableRow } from './ui/TableRow';
