@@ -1,4 +1,4 @@
-export interface AtsGateway {
+export interface Gateway {
   id: string | bigint
   name: string
   phone: string
@@ -8,9 +8,9 @@ export interface AtsGateway {
   updatedAt: Date
 }
 
-export type AtsGatewayAddDTO = AtsGatewayBase & AtLeastOneField;
+export type GatewayCreateDTO = GatewayBase & AtLeastOneField;
 
-export interface AtsGatewayUpdateDTO {
+export interface GatewayUpdateDTO {
   name: string
   phone: string
   interPhone: number
@@ -19,7 +19,7 @@ export interface AtsGatewayUpdateDTO {
   updatedAt: Date
 }
 
-type AtsGatewayBase = {
+type GatewayBase = {
   name: string
   trunkGroup?: number
 };

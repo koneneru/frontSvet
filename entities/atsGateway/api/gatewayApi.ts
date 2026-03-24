@@ -1,34 +1,43 @@
 import { httpClient } from '@/shared/api';
-import { AtsGateway, AtsGatewayAddDTO, AtsGatewayUpdateDTO } from '../model/types';
-import { mapAtsGatewayListResponse, mapAtsGatewayResponse } from './mapper';
-import { GatewayListResponseDTO, GatewayResponseDto } from './types';
+import { Gateway, GatewayCreateDTO, GatewayUpdateDTO } from '../model/types';
+import { mapListResponse, mapResponse } from './mapper';
+import { ListResponseDTO, ResponseDto } from './types';
 
-export async function fetchGateways(): Promise<AtsGateway[]> {
-  const response = await httpClient<GatewayListResponseDTO>('/ats/gateways');
+const ENDPOINT = '/ats/gateways';
 
-  return mapAtsGatewayListResponse(response);
+export const gatewayApi = {
+  fetch: async (): Promise<Gateway[]> => {
+    const response = await httpClient<ListResponseDTO>(ENDPOINT, {
+      method: 'GET',
+      next: { tags: ['ats/gateways'] },
+    });
+
+    return mapListResponse(response);
+  },
+
+  create: async (dto: GatewayCreateDTO): Promise<Gateway> => {
+    const response = await httpClient<ResponseDto>(ENDPOINT, {
+      method: 'POST',
+      body: dto,
+      cache: 'no-cache',
+    });
+
+    return mapResponse(response);
+  },
+
+  update: async (id: string, updateDto: GatewayUpdateDTO): Promise<Gateway> => {
+    const response = await httpClient<ResponseDto>(`${ENDPOINT}/${id}`, {
+      method: 'PATCH',
+      body: updateDto,
+      cache: 'no-cache',
+    });
+
+    return mapResponse(response);
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await httpClient<null>(`${ENDPOINT}/${id}`, {
+      method: 'DELETE',
+    });
+  },
 };
-
-export async function createGateway(dto: AtsGatewayAddDTO): Promise<AtsGateway> {
-  const response = await httpClient<GatewayResponseDto>(`/ats/gateways`, {
-    method: 'POST',
-    body: dto,
-  });
-
-  return mapAtsGatewayResponse(response);
-}
-
-export async function updateGateway(id: string, updateDto: AtsGatewayUpdateDTO): Promise<AtsGateway> {
-  const response = await httpClient<GatewayResponseDto>(`/ats/gateways/${id}`, {
-    method: 'PATCH',
-    body: updateDto,
-  });
-
-  return mapAtsGatewayResponse(response);
-}
-
-export async function deleteGateway(id: string): Promise<void> {
-  await httpClient<unknown>(`/ats/gateways/${id}`, {
-    method: 'DELETE',
-  });
-}

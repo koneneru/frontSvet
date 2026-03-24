@@ -1,10 +1,14 @@
-import { AtsGatewaysPage } from '@/pages/atsGatewaysPage';
+import { AtsGatewaysTableWidget } from '@/widgets/atsGatewayTableWidget';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Шлюзы АТС',
 };
 
-export default function Page() {
-  return <AtsGatewaysPage />;
+interface Props {
+  searchParams: Promise<Record<string, string | undefined>>
+}
+
+export default function Page({ searchParams }: Props) {
+  return <AtsGatewaysTableWidget searchParams={searchParams} />;
 }

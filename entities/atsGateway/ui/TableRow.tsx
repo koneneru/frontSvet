@@ -1,10 +1,10 @@
-import { AtsGateway } from '../model/types';
+import { Gateway } from '../model/types';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLTableRowElement> {
-  gateway: AtsGateway
+  gateway: Gateway
 }
 
-export function AtsGatewayRow({ gateway, ...props }: Props) {
+export function AtsGatewayTableRow({ gateway, ...props }: Props) {
   return (
     <tr {...props}>
       <td className="text-end">{gateway.id}</td>

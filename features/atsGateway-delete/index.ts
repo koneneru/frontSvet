@@ -1,1 +1,1 @@
-export { AtsGatewayDeleteForm } from './ui/AtsGatewayDeleteForm';
+export { DeleteGatewayButton } from './ui/Button';

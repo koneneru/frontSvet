@@ -1,17 +1,17 @@
-import { AtsGateway } from '../model/types';
-import { GatewayDTO, GatewayListResponseDTO, GatewayResponseDto } from './types';
+import { Gateway } from '../model/types';
+import { GatewayDTO, ListResponseDTO, ResponseDto } from './types';
 
-export function mapAtsGatewayDTO(dto: GatewayDTO): AtsGateway {
+export function mapDTO(dto: GatewayDTO): Gateway {
   return {
     ...dto,
     updatedAt: new Date(dto.updatedAt),
   };
 }
 
-export function mapAtsGatewayListResponse(response: GatewayListResponseDTO): AtsGateway[] {
-  return response.data.map(mapAtsGatewayDTO);
+export function mapListResponse(response: ListResponseDTO): Gateway[] {
+  return response.data.map(mapDTO);
 }
 
-export function mapAtsGatewayResponse(response: GatewayResponseDto): AtsGateway {
-  return mapAtsGatewayDTO(response.data);
+export function mapResponse(response: ResponseDto): Gateway {
+  return mapDTO(response.data);
 }

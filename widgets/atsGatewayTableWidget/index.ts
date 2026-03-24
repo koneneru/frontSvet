@@ -1,1 +1,1 @@
-export { AtsGatewaysTableWidget } from './ui/AtsGatewaysTableWidget';
+export { AtsGatewaysTableWidget } from './ui/TableWidget';
