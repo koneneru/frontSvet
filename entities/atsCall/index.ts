@@ -1,10 +1,8 @@
-// hooks
-export { useAtsCalls } from './hooks/useCalls';
-export { useFetchAtsCalls } from './hooks/useFetchCalls';
-export { useAtsCallFilters } from './hooks/useFilters';
+// api
+export { callApi } from './api/callApi';
 
 // model
-export type { AtsCall, AtsCallFilters } from './model/types';
+export type { Call, CallFilters } from './model/types';
 
 // ui
 export { AtsCallRow } from './ui/TableRow';

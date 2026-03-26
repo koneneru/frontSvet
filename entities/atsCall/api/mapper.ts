@@ -1,5 +1,5 @@
 import { Call } from '../model/types';
-import { CallDTO, CallListResponseDTO } from './types';
+import { CallDTO, ListResponseDTO } from './types';
 
 export function mapCallDTO(dto: CallDTO): Call {
   return {
@@ -8,6 +8,6 @@ export function mapCallDTO(dto: CallDTO): Call {
   };
 }
 
-export function mapCallListResponse(response: CallListResponseDTO): Call[] {
+export function mapListResponse(response: ListResponseDTO): Call[] {
   return response.data.map(mapCallDTO);
 }

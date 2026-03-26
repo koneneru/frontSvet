@@ -1,15 +1,18 @@
 import { httpClient } from '@/shared/api';
-import { AtsCall, AtsCallFilters } from '../model/types';
-import { CallListResponseDTO } from './types';
-import { mapCallListResponse } from './mapper';
-import { mapFiltersToQuery } from '../model/filters';
+import { Call, CallFilters } from '../model/types';
+import { ListResponseDTO } from './types';
+import { mapListResponse } from './mapper';
 
-export async function fetchCalls(filters: AtsCallFilters, signal?: AbortSignal): Promise<AtsCall[]> {
-  const response = await httpClient<CallListResponseDTO>('/atsinfo/calls', {
-    method: 'GET',
-    query: mapFiltersToQuery(filters),
-    signal: signal,
-  });
+const ENDPOINT = '/ats/calls';
 
-  return mapCallListResponse(response);
-}
+export const callApi = {
+  fetch: async (filters: CallFilters): Promise<Call[]> => {
+    const response = await httpClient<ListResponseDTO>(ENDPOINT, {
+      method: 'GET',
+      query: filters,
+      next: { tags: ['ats/calls'] },
+    });
+
+    return mapListResponse(response);
+  },
+};

@@ -1,81 +1,79 @@
-import { useAtsCallFilters } from '@/entities/atsCall';
+'use client';
+
+import { CallFilters } from '@/entities/atsCall';
 import { useUrlFilters } from '@/shared/lib/urlFilters';
-import { SubmitEvent } from 'react';
-import Form from 'react-bootstrap/Form';
-import { GatewaySelect } from './GatewaySelect';
+import { DictionarySelect } from '@/shared/dictionaries';
 
 export function AtsCallFilters() {
-  const filters = useAtsCallFilters();
-  const { setFilter } = useUrlFilters();
-
-  const handleFilterChange = (name: string, value: string) => {
-    setFilter(name, value || undefined);
-  };
-
-  const handleSubmit = (e: SubmitEvent) => {
-    e.preventDefault();
-  };
+  const { getFilter, setFilter, setFilterDebounced } = useUrlFilters<CallFilters>();
 
   return (
     <div className="d-flex justify-content-between align-items-center bg-body-tertiary border rounded shadow-sm px-3 py-2 mb-3">
-      <Form
-        className="d-flex flex-column flex-md-row align-items-center gap-2"
-        onSubmit={handleSubmit}
-      >
-        <Form.Control
+      <div className="d-flex flex-column flex-md-row align-items-center gap-2">
+        <input
           type="text"
-          size="sm"
+          className="form-control form-control-sm"
           placeholder="Номер абонента"
-          defaultValue={filters.caller ?? ''}
-          onChange={e => handleFilterChange('caller', e.target.value)}
           maxLength={11}
           style={{ width: '17ch' }}
+          defaultValue={getFilter('caller') ?? ''}
+          onChange={e => setFilterDebounced('caller', e.target.value)}
         />
-        <Form.Control
+        <input
           type="text"
-          size="sm"
+          className="form-control form-control-sm"
           placeholder="Номер вызова"
-          defaultValue={filters.callee ?? ''}
-          onChange={e => handleFilterChange('callee', e.target.value)}
           maxLength={11}
           style={{ width: '15ch' }}
+          defaultValue={getFilter('callee') ?? ''}
+          onChange={e => setFilterDebounced('callee', e.target.value)}
         />
-        <Form.Control
-          as="select"
-          size="sm"
-          defaultValue={filters.direction ?? ''}
-          onChange={e => handleFilterChange('direction', e.target.value)}
+        <select
+          className="form-control form-control-sm"
           style={{ width: '110px' }}
+          defaultValue={getFilter('direction') ?? ''}
+          onChange={e => setFilter('direction', e.target.value)}
         >
           <option value="">Направление</option>
           <option value="O">Исходящие</option>
           <option value="I">Входящие</option>
           <option value="A">Пропущенные</option>
-        </Form.Control>
-        <GatewaySelect defaultValue={filters.gateway ?? ''} onChange={handleFilterChange} />
-        <Form.Check
-          inline
-          type="checkbox"
-          name="intercity"
-          label="Межгород"
-          defaultChecked={filters.intercity}
-          onChange={e => handleFilterChange('intercity', e.target.checked ? 'true' : 'false')}
+        </select>
+        <DictionarySelect
+          type="gateways"
+          className="form-control form-control-sm"
+          placeholder="Шлюз"
+          defaultValue={getFilter('gateway') ?? ''}
+          onChange={e => setFilter('gateway', e.target.value)}
         />
-        <Form.Control
+        <div className="form-check form-check-inline">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            name="intercity"
+            id="intercity"
+            defaultChecked={getFilter('intercity') === 'true'}
+            onChange={e => setFilter('intercity', e.target.checked ? 'true' : 'false')}
+          />
+          <label htmlFor="intercity" className="form-check-label">Межгород</label>
+        </div>
+        <input
           type="date"
-          size="sm"
+          className="form-control form-control-sm"
           name="dateFrom"
-          defaultValue={filters.dateFrom ?? ''}
-          onChange={e => handleFilterChange('dateFrom', e.target.value)}
+          style={{ width: '129px' }}
+          defaultValue={getFilter('dateFrom') ?? ''}
+          onChange={e => setFilter('dateFrom', e.target.value)}
         />
-        <Form.Control
+        <input
           type="date"
-          size="sm"
+          className="form-control form-control-sm"
           name="dateTo"
-          defaultValue={filters.dateTo ?? ''}
-          onChange={e => handleFilterChange('dateTo', e.target.value)}
+          style={{ width: '129px' }}
+          defaultValue={getFilter('dateTo') ?? ''}
+          onChange={e => setFilter('dateTo', e.target.value)}
         />
-      </Form>
+      </div>
     </div>
   );
 }

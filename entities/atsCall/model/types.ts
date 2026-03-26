@@ -1,4 +1,4 @@
-export interface AtsCall {
+export interface Call {
   id: string | bigint
   caller: string
   callerName: string
@@ -11,12 +11,12 @@ export interface AtsCall {
   calleeName: string
 }
 
-export interface AtsCallFilters {
+export interface CallFilters extends Record<string, string | undefined> {
   caller?: string
   callee?: string
   direction?: string
   gateway?: string
   dateFrom?: string
   dateTo?: string
-  intercity?: boolean
+  intercity?: string
 }

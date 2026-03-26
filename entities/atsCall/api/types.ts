@@ -10,7 +10,7 @@ export interface CallDTO {
   duration: number
   vector: string
   callee: string
-  clleeName: string
+  calleeName: string
 }
 
-export type CallListResponseDTO = ServerResponse<CallDTO[]>;
+export type ListResponseDTO = ServerResponse<CallDTO[]>;

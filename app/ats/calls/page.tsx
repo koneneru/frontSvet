@@ -1,10 +1,14 @@
-import { AtsCallsPage } from '@/pages/atsCallPage';
+import { AtsCallsTableWidget } from '@/widgets/atsCallsTableWidget';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Журнал вызовов АТС',
 };
 
-export default function Page() {
-  return <AtsCallsPage />;
+interface Props {
+  searchParams: Promise<Record<string, string | undefined>>
+}
+
+export default function Page({ searchParams }: Props) {
+  return <AtsCallsTableWidget searchParams={searchParams} />;
 };

@@ -2,7 +2,7 @@ import { SelectHTMLAttributes } from 'react';
 import { dictionaryStore } from '../model/store';
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
-  type: 'departments'
+  type: 'departments' | 'gateways'
   placeholder?: string
 }
 

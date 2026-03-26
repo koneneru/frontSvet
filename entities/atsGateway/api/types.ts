@@ -10,5 +10,5 @@ export interface GatewayDTO {
   updatedAt: string
 }
 
-export type ResponseDto = ServerResponse<GatewayDTO>;
+export type ResponseDTO = ServerResponse<GatewayDTO>;
 export type ListResponseDTO = ServerResponse<GatewayDTO[]>;
